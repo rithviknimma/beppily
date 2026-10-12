@@ -1,0 +1,56 @@
+/* Self-hosted so the page has no third-party font dependency in 2028. The
+   fallback stack is Comic Sans on purpose — if the woff2 ever fails to load,
+   the page should still look like a child drew it. */
+@font-face {
+  font-family: 'Patrick Hand';
+  src: url('/fonts/patrick-hand-latin.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, U+2122, U+FFFD;
+}
+
+:root {
+  --paper: #fffdf6;
+  --rule: #d4e6f4;
+  --margin-line: #f2b6b6;
+  --ink: #44506180;
+  --ink-solid: #445061;
+  --rule-height: 34px;
+  --margin-x: 58px;
+
+  color-scheme: light;
+  font-family: 'Patrick Hand', 'Comic Sans MS', 'Chalkboard SE', cursive;
+  color: var(--ink-solid);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--paper);
+  /* ruled notebook paper with a margin line down the left */
+  background-image:
+    linear-gradient(
+      to right,
+      transparent 0 calc(var(--margin-x) - 2px),
+      var(--margin-line) calc(var(--margin-x) - 2px) var(--margin-x),
+      transparent var(--margin-x)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(var(--rule-height) - 1px),
+      var(--rule) calc(var(--rule-height) - 1px) var(--rule-height)
+    );
+  background-attachment: fixed;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --margin-x: 26px;
+    --rule-height: 30px;
+  }
+}

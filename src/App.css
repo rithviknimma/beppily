@@ -1,0 +1,316 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.1rem, 3vw, 2rem);
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+  padding-left: max(var(--margin-x), 1.25rem);
+  overflow: hidden;
+}
+
+/* holder for the SVG displacement filter the doodles use */
+.crayon-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* a box drawn by hand: uneven corners, gone over twice, never quite straight */
+.crayon-box {
+  border: 3px solid var(--ink-solid);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow:
+    2px 3px 0 rgba(68, 80, 97, 0.16),
+    -1px -1px 0 rgba(68, 80, 97, 0.1);
+  transform: rotate(var(--tilt, 0deg));
+}
+
+/* ---------- title ---------- */
+
+/* A wrapping flex row rather than plain inline text: the letters are
+   individual spans with no whitespace between them, so normal text wrapping has
+   no break opportunity to use and the title runs off the side of a phone.
+   Flex gives each word its own break point. */
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 0.3em;
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(2.2rem, 10vw, 5.4rem);
+  font-weight: 400;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.02em;
+}
+
+.title__letter {
+  display: inline-block;
+  transform: rotate(var(--letter-tilt)) translateY(var(--letter-lift));
+  text-shadow: 1px 1px 0 rgba(68, 80, 97, 0.12);
+}
+
+.title__word {
+  white-space: nowrap;
+}
+
+/* ---------- countdown ---------- */
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.8rem, 2.4vw, 1.4rem);
+}
+
+.arrived {
+  margin: 0 0 0.2rem;
+  font-size: clamp(1.4rem, 5.5vw, 2.4rem);
+  text-align: center;
+  color: #d2578f;
+  transform: rotate(-1.4deg);
+}
+
+.countdown__big {
+  display: flex;
+  gap: clamp(0.7rem, 3vw, 1.6rem);
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.unit--big {
+  min-width: clamp(7rem, 33vw, 13rem);
+  padding: clamp(0.5rem, 2vw, 1rem) clamp(0.9rem, 3vw, 1.6rem) 0.6rem;
+}
+
+.unit--big .unit__value {
+  font-size: clamp(3.4rem, 17vw, 6.4rem);
+  line-height: 1;
+}
+
+.unit--big .unit__label {
+  font-size: clamp(1rem, 3.6vw, 1.5rem);
+  opacity: 0.72;
+}
+
+.countdown__small {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.3rem, 1.6vw, 0.8rem);
+  padding: 0.55rem clamp(0.9rem, 3.5vw, 1.6rem) 0.5rem;
+  transform: rotate(0.8deg);
+}
+
+.unit--small .unit__value {
+  display: inline-block;
+  font-size: clamp(1.7rem, 7.5vw, 2.8rem);
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+  animation: tick 420ms ease-out;
+}
+
+.unit--small .unit__label {
+  display: block;
+  font-size: clamp(0.72rem, 2.6vw, 0.95rem);
+  text-align: center;
+  opacity: 0.6;
+}
+
+.colon {
+  font-size: clamp(1.5rem, 6.5vw, 2.4rem);
+  line-height: 1.2;
+  opacity: 0.5;
+}
+
+@keyframes tick {
+  from {
+    transform: scale(1.16) rotate(-1.5deg);
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* ---------- cats ---------- */
+
+.cats {
+  display: flex;
+  gap: clamp(0.9rem, 4vw, 2.4rem);
+  align-items: flex-start;
+}
+
+.cat {
+  position: relative;
+  margin: 0;
+  padding: 0.7rem 0.7rem 0.2rem;
+  width: clamp(7.2rem, 35vw, 13.5rem);
+  background: #fff;
+  box-shadow: 2px 4px 0 rgba(68, 80, 97, 0.14);
+  transform: rotate(var(--tilt, 0deg));
+}
+
+.cat__tape {
+  position: absolute;
+  top: -0.5rem;
+  width: 2.6rem;
+  height: 1.15rem;
+  background: rgba(252, 232, 143, 0.72);
+  border-left: 1px dashed rgba(190, 170, 90, 0.5);
+  border-right: 1px dashed rgba(190, 170, 90, 0.5);
+}
+
+.cat__tape--left {
+  left: -0.35rem;
+  transform: rotate(-32deg);
+}
+
+.cat__tape--right {
+  right: -0.35rem;
+  transform: rotate(32deg);
+}
+
+/* a reserved square box: the APIs return every aspect ratio there is, so the
+   layout must not depend on what comes back */
+.cat__frame {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background: #f4f1e8;
+}
+
+.cat__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cat__loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  border: 2px dashed rgba(68, 80, 97, 0.3);
+  font-size: 1.6rem;
+  animation: paw-bounce 1.1s ease-in-out infinite;
+}
+
+.cat__loading-text {
+  font-size: 0.9rem;
+  opacity: 0.6;
+}
+
+@keyframes paw-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(3deg);
+  }
+}
+
+.cat__name {
+  position: relative;
+  padding: 0.35rem 0 0.1rem;
+  text-align: center;
+  font-size: clamp(1.3rem, 5vw, 1.9rem);
+  color: var(--ink-solid);
+}
+
+.cat__underline {
+  display: block;
+  width: 70%;
+  height: 8px;
+  margin: -2px auto 0;
+  color: #d2578f;
+}
+
+/* ---------- button ---------- */
+
+.new-cat {
+  padding: 0.55rem 1.5rem 0.65rem;
+  font: inherit;
+  font-size: clamp(1.1rem, 4.4vw, 1.5rem);
+  color: var(--ink-solid);
+  cursor: pointer;
+  --tilt: -1.2deg;
+}
+
+.new-cat:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.95);
+  transform: rotate(-1.2deg) translateY(-1px);
+}
+
+.new-cat:active:not(:disabled) {
+  transform: rotate(-1.2deg) translate(1px, 2px);
+  box-shadow: 1px 1px 0 rgba(68, 80, 97, 0.16);
+}
+
+.new-cat:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+/* ---------- margin doodles ---------- */
+
+.doodle {
+  position: absolute;
+  pointer-events: none;
+}
+
+.doodle--sun {
+  top: clamp(0.5rem, 3vw, 2rem);
+  right: clamp(0.5rem, 3vw, 2.5rem);
+  width: clamp(4.5rem, 14vw, 8rem);
+}
+
+.doodle--house {
+  bottom: clamp(0.5rem, 2vw, 2rem);
+  left: clamp(1.5rem, 6vw, 4.5rem);
+  width: clamp(5rem, 15vw, 9rem);
+}
+
+.doodle--cloud {
+  top: clamp(1rem, 5vw, 3.5rem);
+  left: clamp(3rem, 9vw, 7rem);
+  width: clamp(4.5rem, 13vw, 8.5rem);
+}
+
+.doodle--paws {
+  right: clamp(1rem, 4vw, 3rem);
+  bottom: clamp(1rem, 4vw, 3rem);
+  width: clamp(2.2rem, 5vw, 3.6rem);
+}
+
+@media (max-width: 780px) {
+  .doodle--cloud,
+  .doodle--paws {
+    display: none;
+  }
+}
+
+/* ---------- motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .unit--small .unit__value,
+  .cat__loading {
+    animation: none;
+  }
+
+  .new-cat:hover:not(:disabled),
+  .new-cat:active:not(:disabled) {
+    transform: rotate(-1.2deg);
+  }
+}
