@@ -91,7 +91,7 @@ export default function App() {
         onClick={handleNewCat}
         disabled={loading}
       >
-        new cat 🐾
+        new beppies 🐾
       </button>
     </main>
   )
